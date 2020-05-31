@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbAddPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_anchor="@id/nsvDetails"
+        app:layout_anchorGravity="bottom|right|end" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvDetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivGardenProfile"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:paddingBottom="@dimen/margin_small"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivGardenProfile">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_default">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Title of garden" />
+
+                    <TextView
+                        android:id="@+id/tvDateTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        app:layout_constraintBottom_toBottomOf="@+id/cbIndoor"
+                        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                        app:layout_constraintTop_toTopOf="@+id/cbIndoor" />
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvDateTitle"
+                        app:layout_constraintStart_toEndOf="@+id/tvDateTitle"
+                        app:layout_constraintTop_toTopOf="@+id/tvDateTitle"
+                        tools:text="12/11/2020" />
+
+                    <TextView
+                        android:id="@+id/tvDescriptionTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="Description"
+                        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/cbIndoor" />
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        app:layout_constraintEnd_toEndOf="@+id/tvDescriptionTitle"
+                        app:layout_constraintStart_toStartOf="@+id/tvDescriptionTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescriptionTitle" />
+
+                    <CheckBox
+                        android:id="@+id/cbIndoor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="Is indoor?"
+                        app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+                    <TextView
+                        android:id="@+id/tvAlarmTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:text="Alarm"
+                        app:layout_constraintStart_toStartOf="@+id/tvDescription"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+                    <TextView
+                        android:id="@+id/tvAlarm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        app:layout_constraintStart_toStartOf="@+id/tvAlarmTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAlarmTitle"
+                        tools:text="12:00" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvGallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cvInfo"
+                app:layout_constraintStart_toStartOf="@+id/cvInfo"
+                app:layout_constraintTop_toBottomOf="@+id/cvInfo">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvGalleryTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:text="Gallery"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvEmptyGallery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginBottom="@dimen/margin_default"
+                        android:text="No pictures yet! Make a new one!"
+                        android:textAlignment="center"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tvGalleryTitle"
+                        app:layout_constraintStart_toStartOf="@+id/tvGalleryTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvGalleryTitle" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGallery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginBottom="@dimen/margin_default"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tvGalleryTitle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/tvGalleryTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvGalleryTitle"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_home"
+                        tools:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

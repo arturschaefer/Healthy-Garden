@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#33691e</color>
+    <color name="colorPrimaryDark">#003d00</color>
+    <color name="colorPrimaryLight">#629749</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorButton">#0277bd</color>
+
+    <color name="startProfileColor">#c8e6c9</color>
+    <color name="endProfileColor">#97b498</color>
+</resources>
