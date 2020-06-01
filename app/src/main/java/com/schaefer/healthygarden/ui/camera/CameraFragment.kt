@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.schaefer.healthygarden.R
 import kotlinx.android.synthetic.main.fragment_camera.*
+import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,7 +80,7 @@ class CameraFragment : Fragment() {
                     this, cameraSelector, preview)
                 preview?.setSurfaceProvider(viewFinder.createSurfaceProvider(camera?.cameraInfo))
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Timber.e("Use case binding failed - $exc")
             }
 
         }, ContextCompat.getMainExecutor(requireContext()))
@@ -107,14 +108,14 @@ class CameraFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    Timber.e("Photo capture failed: ${exc.message} - $exc")
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    Timber.e( msg)
                 }
             })
     }
@@ -151,7 +152,6 @@ class CameraFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "CameraXBasic"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)

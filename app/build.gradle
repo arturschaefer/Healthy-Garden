@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
+apply plugin: 'com.google.gms.google-services'
 
 
 android {
@@ -71,4 +72,22 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha10"
 
     implementation 'com.ablanco.zoomy:zoomy:1.0.0'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
+
+    //Auth
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
+    //Koin
+    def koin_version = "2.1.5"
+    implementation "org.koin:koin-android:$koin_version"
+    // or Koin for Lifecycle scoping
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // or Koin for Android Architecture ViewModel
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // or Koin for Android Fragment Factory (unstable version)
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
 }

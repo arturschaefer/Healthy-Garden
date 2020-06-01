@@ -12,4 +12,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Sign Up -->
+    <string name="sign_up_success">Sign up made with success</string>
+    <string name="sign_up_canceled">Sign up made canceled</string>
+    <string name="sign_up_error">Sign up made with error</string>
+    <string name="error_email">Please use a valid email. Ex: your.name@domain.com</string>
+    <string name="error_name">Please use name and surname</string>
+    <string name="error_password">Password is too short (minimum is 6 characters)</string>
+    <string name="error_checkbox">Before you continue, it\'s needed to agree with the terms</string>
+    <string name="empty_message" />
 </resources>
