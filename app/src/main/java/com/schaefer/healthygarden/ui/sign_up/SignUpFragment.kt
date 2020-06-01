@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import coil.api.load
 import com.schaefer.healthygarden.R
 import com.schaefer.healthygarden.ui.sign_up.viewmodel.SignUpViewModel
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.ivLogo
 import kotlinx.android.synthetic.main.layout_signup.view.*
@@ -47,8 +46,8 @@ class SignUpFragment : Fragment() {
 
         includeSignUpForm.btnSignup.setOnClickListener {
             signUpViewModel.authenticateUser(
-                includeSignUpForm.etEmail.text.toString(),
-                includeSignUpForm.etPassword.text.toString()
+                includeSignUpForm.etEmail.text.toString().trim(),
+                includeSignUpForm.etPassword.text.toString().trim()
             )
         }
     }
@@ -80,7 +79,7 @@ class SignUpFragment : Fragment() {
         includeSignUpForm.etName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 runnable = Runnable {
-                    
+
                 }
                 signUpViewModel.setName(s.toString().trim())
             }
