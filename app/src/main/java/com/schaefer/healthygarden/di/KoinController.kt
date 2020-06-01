@@ -22,7 +22,7 @@ object KoinController {
         loadModules(modules)
     }
 
-    fun loadModules(modules: List<Module>) {
+    private fun loadModules(modules: List<Module>) {
         modules.filterNot { loadedModules.contains(it) }
             .takeIf { it.isNotEmpty() }
             ?.apply {
@@ -31,7 +31,7 @@ object KoinController {
             }
     }
 
-    fun unloadModules(modules: List<Module>) {
+    private fun unloadModules(modules: List<Module>) {
         modules.filter { loadedModules.contains(it) }
             .takeIf { it.isNotEmpty() }
             ?.apply {

@@ -23,8 +23,8 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
     private val _passwordErrorMessage = MutableLiveData<Int>()
     val passwordErrorMessage = _passwordErrorMessage.toLiveData()
 
-    private val _messageCreateUser = MutableLiveData<Int>()
-    val messageCreateUser = _messageCreateUser.toLiveData()
+    private val _messageLoginUser = MutableLiveData<Int>()
+    val messageLoginUser = _messageLoginUser.toLiveData()
 
     private val _hasSuccessSignUp = MutableLiveData<Boolean>()
     val hasSuccessSignUp = _hasSuccessSignUp.toLiveData()
