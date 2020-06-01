@@ -8,6 +8,7 @@ import com.schaefer.healthygarden.R
 import com.schaefer.healthygarden.extensions.toLiveData
 import timber.log.Timber
 
+
 class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
     private val _isValidForm = MutableLiveData<Boolean>()
     val isValidForm = _isValidForm.toLiveData()
@@ -38,10 +39,21 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
                     val user = firebaseAuth.currentUser
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.w("signInWithEmail:failure %s", task.exception)
+                    Timber.e("signInWithEmail:failure %s", task.exception)
                 }
                 if (!task.isSuccessful) {
-                    Timber.d(task.exception)
+                    Timber.e(task.exception)
+                }
+            }
+    }
+
+    fun forgotPassword(email: String) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Timber.d("Email sent.")
+                }else {
+                    Timber.e(task.exception)
                 }
             }
     }

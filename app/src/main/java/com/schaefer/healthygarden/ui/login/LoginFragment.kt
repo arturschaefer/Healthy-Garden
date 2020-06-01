@@ -6,18 +6,19 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import coil.api.load
+import com.google.android.material.textfield.TextInputEditText
 import com.schaefer.healthygarden.R
 import com.schaefer.healthygarden.ui.login.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.ivLogo
-import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.layout_login.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+
 
 class LoginFragment : Fragment() {
 
@@ -51,6 +52,10 @@ class LoginFragment : Fragment() {
                 includeLoginForm.etEmail.text.toString().trim(),
                 includeLoginForm.etPassword.text.toString().trim()
             )
+        }
+
+        includeLoginForm.tvForgotPassword.setOnClickListener {
+            forgotPassword()
         }
     }
 
@@ -93,5 +98,28 @@ class LoginFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         })
+    }
+
+    private fun forgotPassword() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.widget_dialog, null)
+        dialogBuilder.setView(dialogView)
+        val email =
+            dialogView.findViewById<View>(R.id.etDialogEmail) as TextInputEditText
+        dialogBuilder.setTitle("Forgot the password?")
+        dialogBuilder.setMessage("Please confirm your and email. We will send more information to your inbox.")
+        dialogBuilder.setPositiveButton(
+            "Send"
+        ) { _, _ ->
+            val emailStr = email.text.toString()
+            loginViewModel.forgotPassword(emailStr)
+        }
+        dialogBuilder.setNegativeButton("Cancel"
+        ) { dialog, whichButton ->
+            //pass
+        }
+        val b: AlertDialog = dialogBuilder.create()
+        b.show()
     }
 }
