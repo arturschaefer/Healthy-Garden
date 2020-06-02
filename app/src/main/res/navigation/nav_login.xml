@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.schaefer.healthygarden.ui.login.SignUpFragment"
+        android:name="com.schaefer.healthygarden.ui.sign_up.SignUpFragment"
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_signup">
         <action
