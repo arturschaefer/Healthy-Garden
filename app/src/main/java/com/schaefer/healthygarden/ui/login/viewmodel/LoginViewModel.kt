@@ -26,8 +26,11 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
     private val _messageLoginUser = MutableLiveData<Int>()
     val messageLoginUser = _messageLoginUser.toLiveData()
 
-    private val _hasSuccessSignUp = MutableLiveData<Boolean>()
-    val hasSuccessSignUp = _hasSuccessSignUp.toLiveData()
+    private val _hasSuccessLogin = MutableLiveData<Boolean>()
+    val hasSuccessLogin = _hasSuccessLogin.toLiveData()
+
+    private val _hasUser = MutableLiveData<Boolean>()
+    val hasUser = _hasUser.toLiveData()
 
     fun signIn(email: String, password: String) {
         Timber.d("signIn:$email")
@@ -44,6 +47,7 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
                 if (!task.isSuccessful) {
                     Timber.e(task.exception)
                 }
+                _hasUser.value = firebaseAuth.currentUser != null
             }
     }
 
@@ -93,14 +97,6 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
         }
     }
 
-    private fun isValidName(name: String?): Boolean {
-        return if (name.isNullOrEmpty()) {
-            false
-        } else {
-            name.isNotEmpty() && name.split(" ").size > 1
-        }
-    }
-
     private fun isValidPassword(password: String?): Boolean {
         return if (password.isNullOrEmpty()) {
             false
@@ -111,5 +107,9 @@ class LoginViewModel(private val firebaseAuth: FirebaseAuth) : ViewModel() {
 
     private fun isValidForm() {
         _isValidForm.value = isValidEmail(_email.value) && isValidPassword(_password.value)
+    }
+
+    fun isUserAuthenticate(){
+        _hasUser.value = firebaseAuth.currentUser != null
     }
 }

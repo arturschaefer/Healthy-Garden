@@ -3,6 +3,7 @@ package com.schaefer.healthygarden.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -22,6 +23,9 @@ class GardenViewHolder(override val containerView: View) :
             crossfade(true)
             placeholder(R.drawable.placeholder_header_garden)
             transformations(CircleCropTransformation())
+        }
+        cvGardenItem.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_homeFragment_to_detailsGardenFragment)
         }
     }
 

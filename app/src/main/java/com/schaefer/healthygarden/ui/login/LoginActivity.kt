@@ -8,13 +8,10 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class LoginActivity : AppCompatActivity(){
-    private val firebaseAuth: FirebaseAuth by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        Timber.d(firebaseAuth.currentUser.toString())
     }
 }

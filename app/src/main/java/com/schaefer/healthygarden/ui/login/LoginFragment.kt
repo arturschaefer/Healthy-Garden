@@ -1,5 +1,6 @@
 package com.schaefer.healthygarden.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import androidx.navigation.findNavController
 import coil.api.load
 import com.google.android.material.textfield.TextInputEditText
 import com.schaefer.healthygarden.R
+import com.schaefer.healthygarden.ui.home.HomeActivity
 import com.schaefer.healthygarden.ui.login.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.layout_login.view.*
@@ -32,6 +34,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        loginViewModel.isUserAuthenticate()
     }
 
     private fun setupView() {
@@ -73,8 +76,16 @@ class LoginFragment : Fragment() {
             includeLoginForm.btnLogin.isEnabled = it
         })
 
-        loginViewModel.hasSuccessSignUp.observe(viewLifecycleOwner, Observer { success ->
+        loginViewModel.hasSuccessLogin.observe(viewLifecycleOwner, Observer { success ->
             Timber.d(success.toString())
+        })
+
+        loginViewModel.hasUser.observe(viewLifecycleOwner, Observer { hasUser ->
+            if(hasUser){
+                //Todo change to the correct way of navigation
+                requireContext().startActivity(Intent(requireContext(), HomeActivity::class.java))
+                requireActivity().finish()
+            }
         })
     }
 

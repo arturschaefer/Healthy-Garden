@@ -1,15 +1,14 @@
 package com.schaefer.healthygarden.ui.camera
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -36,7 +35,10 @@ class CameraFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View? = inflater.inflate(R.layout.fragment_camera, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -45,18 +47,16 @@ class CameraFragment : Fragment() {
                 requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
-
-        // Setup the listener for take photo button
-        ibCamera.setOnClickListener { takePhoto() }
-
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        return inflater.inflate(R.layout.fragment_details_garden, container, false)
     }
 
     private fun startCamera() {
+        // Setup the listener for take photo button
+        ibCamera.setOnClickListener { takePhoto() }
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener(Runnable {
@@ -65,6 +65,9 @@ class CameraFragment : Fragment() {
 
             // Preview
             preview = Preview.Builder()
+                .build()
+
+            imageCapture = ImageCapture.Builder()
                 .build()
 
             // Select back camera
@@ -77,7 +80,7 @@ class CameraFragment : Fragment() {
 
                 // Bind use cases to camera
                 camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)
+                    viewLifecycleOwner, cameraSelector, preview, imageCapture)
                 preview?.setSurfaceProvider(viewFinder.createSurfaceProvider(camera?.cameraInfo))
             } catch (exc: Exception) {
                 Timber.e("Use case binding failed - $exc")
@@ -108,14 +111,14 @@ class CameraFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Timber.e("Photo capture failed: ${exc.message} - $exc")
+                    Timber.e("Photo capture failed. Please, try again.")
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                    Timber.e( msg)
+                    val data = Intent()
+                    data.putExtra(URI_OF_PICTURE, Uri.fromFile(photoFile))
+                    requireActivity().setResult(REQUEST_TAKEN_PICTURE, data)
+                    requireActivity().finish()
                 }
             })
     }
@@ -155,5 +158,7 @@ class CameraFragment : Fragment() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        const val REQUEST_TAKEN_PICTURE = 1000
+        const val URI_OF_PICTURE = "uri"
     }
 }

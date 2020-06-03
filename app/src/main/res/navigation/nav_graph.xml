@@ -9,23 +9,31 @@
         android:id="@+id/homeFragment"
         android:name="com.schaefer.healthygarden.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_createEditGardenFragment"
-            app:destination="@id/createEditGardenFragment" />
+            android:id="@+id/action_homeFragment_to_detailsGardenFragment"
+            app:destination="@id/detailsGardenFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.schaefer.healthygarden.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment3"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/createEditGardenFragment"
-        android:name="com.schaefer.healthygarden.ui.garden.create_edit.CreateEditGardenFragment"
-        android:label="CreateEditGardenFragment"
-        tools:layout="@layout/fragment_create"/>
+        android:id="@+id/detailsGardenFragment"
+        android:name="com.schaefer.healthygarden.ui.garden.details.DetailsGardenFragment"
+        android:label="DetailsGardenFragment"
+        tools:layout="@layout/fragment_details_garden" >
+        <action
+            android:id="@+id/action_detailsGardenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

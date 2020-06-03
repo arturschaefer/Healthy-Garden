@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/homeFragment"
         android:enabled="true"
-        android:icon="@android:drawable/btn_star_big_off"
+        android:icon="@drawable/ic_baseline_home_24"
         android:title="Home"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/profileFragment"
         android:enabled="true"
-        android:icon="@android:drawable/presence_audio_online"
+        android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile"/>
 </menu>

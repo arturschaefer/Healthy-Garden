@@ -2,9 +2,7 @@ package com.schaefer.healthygarden
 
 import android.app.Application
 import com.schaefer.healthygarden.di.KoinController
-import com.schaefer.healthygarden.di.modules.firebaseModule
-import com.schaefer.healthygarden.di.modules.loginModule
-import com.schaefer.healthygarden.di.modules.signUpModule
+import com.schaefer.healthygarden.di.modules.*
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -12,7 +10,9 @@ import timber.log.Timber.DebugTree
 class ApplicationHealthyGarden : Application() {
     private val modules = arrayListOf(firebaseModule,
         signUpModule,
-        loginModule
+        loginModule,
+        homeModule,
+        createEditModule
     )
 
     override fun onCreate() {
