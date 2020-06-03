@@ -8,11 +8,13 @@ import timber.log.Timber.DebugTree
 
 
 class ApplicationHealthyGarden : Application() {
-    private val modules = arrayListOf(firebaseModule,
+    private val modules = arrayListOf(
+        firebaseModule,
         signUpModule,
         loginModule,
         homeModule,
-        createEditModule
+        createEditModule,
+        profileModule
     )
 
     override fun onCreate() {
