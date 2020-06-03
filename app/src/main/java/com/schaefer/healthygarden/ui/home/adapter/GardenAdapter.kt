@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.schaefer.healthygarden.R
-import com.schaefer.healthygarden.domain.model.GardenDTO
+import com.schaefer.healthygarden.domain.model.Garden
 import com.schaefer.healthygarden.extensions.inflate
 
-class GardenAdapter (private val arrayList: ArrayList<GardenDTO>): RecyclerView.Adapter<GardenViewHolder>() {
+class GardenAdapter (private val arrayList: ArrayList<Garden>): RecyclerView.Adapter<GardenViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GardenViewHolder {
         val layout = parent.inflate(R.layout.item_home, false)
@@ -15,7 +15,7 @@ class GardenAdapter (private val arrayList: ArrayList<GardenDTO>): RecyclerView.
     }
 
     override fun onBindViewHolder(holder: GardenViewHolder, position: Int) {
-        val garden: GardenDTO = arrayList[position]
+        val garden: Garden = arrayList[position]
         holder.bind(garden)
     }
 

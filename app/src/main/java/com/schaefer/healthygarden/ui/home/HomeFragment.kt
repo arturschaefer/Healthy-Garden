@@ -6,19 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.schaefer.healthygarden.R
-import com.schaefer.healthygarden.domain.model.MockDTO
+import com.schaefer.healthygarden.domain.model.Mock
 import com.schaefer.healthygarden.ui.create_edit.CreateEditGardenActivity
-import com.schaefer.healthygarden.ui.create_edit.CreateEditGardenFragment
 import com.schaefer.healthygarden.ui.home.adapter.GardenAdapter
 import com.schaefer.healthygarden.ui.home.viewmodel.HomeViewModel
-import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,6 +28,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        homeViewModel.listOfGarden.observe(viewLifecycleOwner, Observer {listOfGardens ->
+            rvGarden.apply {
+                adapter = GardenAdapter(listOfGardens)
+            }
+        })
     }
 
     private fun setupView() {
@@ -41,7 +44,6 @@ class HomeFragment : Fragment() {
 
         rvGarden.apply {
             layoutManager = GridLayoutManager(activity, 2)
-            adapter = GardenAdapter(MockDTO.arrayListOfGardenDTO)
         }
 
         fbCreateGarden.setOnClickListener {

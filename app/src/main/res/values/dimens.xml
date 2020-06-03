@@ -9,4 +9,9 @@
     <dimen name="margin_large">40dp</dimen>
 
     <dimen name="text_20sp">20sp</dimen>
+
+<!--    Fab-->
+    <dimen name="fab_halo_width">4dp</dimen>
+    <dimen name="collapsed_fab_size">56dp</dimen>
+    <dimen name="extended_fab_height">48dp</dimen>
 </resources>

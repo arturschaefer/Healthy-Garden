@@ -17,9 +17,8 @@ class CreateEditGardenActivity: AppCompatActivity(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
         if (item.itemId == android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
+            finish()
         }
         return super.onOptionsItemSelected(item)
     }

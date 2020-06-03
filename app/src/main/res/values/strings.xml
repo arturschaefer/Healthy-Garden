@@ -22,4 +22,6 @@
     <string name="error_password">Password is too short (minimum is 6 characters)</string>
     <string name="error_checkbox">Before you continue, it\'s needed to agree with the terms</string>
     <string name="empty_message" />
+    <string name="add_picture" >Add picture to the gallery</string>
+    <string name="edit_garden">Edit the Garden</string>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_camera"
+    app:startDestination="@id/cameraFragment">
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.schaefer.healthygarden.ui.camera.CameraFragment"
+        android:label="CameraFragment"
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_cameraFragment_to_confirmPictureFragment"
+            app:destination="@id/confirmPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmPictureFragment"
+        android:name="com.schaefer.healthygarden.ui.camera.ConfirmPictureFragment"
+        android:label="ConfirmPictureFragment"
+        tools:layout="@layout/fragment_confirm_picture">
+        <argument
+            android:name="image"
+            app:argType="string" />
+    </fragment>
+</navigation>

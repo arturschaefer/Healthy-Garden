@@ -8,4 +8,6 @@
 
     <color name="startProfileColor">#c8e6c9</color>
     <color name="endProfileColor">#97b498</color>
+
+    <color name="lightGray">#696969</color>
 </resources>

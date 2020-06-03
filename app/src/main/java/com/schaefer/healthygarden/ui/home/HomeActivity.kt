@@ -1,9 +1,9 @@
 package com.schaefer.healthygarden.ui.home
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.schaefer.healthygarden.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,18 +21,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpNavigation() {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
-
-        navHostFragment?.navController?.let { navController ->
-            NavigationUI.setupWithNavController(
-                includeContentMain.bottom_navigation,
-                navController
-            )
-        }
+        val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
+        NavigationUI.setupWithNavController(includeContentMain.bottom_navigation, navController)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //        menuInflater.inflate(R.menu.menu_main, menu)
 //        return true
 //    }

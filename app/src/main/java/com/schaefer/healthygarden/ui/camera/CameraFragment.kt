@@ -13,7 +13,9 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.schaefer.healthygarden.R
 import kotlinx.android.synthetic.main.fragment_camera.*
 import timber.log.Timber
@@ -80,7 +82,8 @@ class CameraFragment : Fragment() {
 
                 // Bind use cases to camera
                 camera = cameraProvider.bindToLifecycle(
-                    viewLifecycleOwner, cameraSelector, preview, imageCapture)
+                    viewLifecycleOwner, cameraSelector, preview, imageCapture
+                )
                 preview?.setSurfaceProvider(viewFinder.createSurfaceProvider(camera?.cameraInfo))
             } catch (exc: Exception) {
                 Timber.e("Use case binding failed - $exc")
@@ -115,10 +118,13 @@ class CameraFragment : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val data = Intent()
-                    data.putExtra(URI_OF_PICTURE, Uri.fromFile(photoFile))
-                    requireActivity().setResult(REQUEST_TAKEN_PICTURE, data)
-                    requireActivity().finish()
+//                    val data = Intent()
+//                    data.putExtra(URI_OF_PICTURE, Uri.fromFile(photoFile))
+//                    requireActivity().setResult(REQUEST_TAKEN_PICTURE, data)
+//                    requireActivity().finish()
+                    val bundle = bundleOf("image" to Uri.fromFile(photoFile).toString())
+                    requireView().findNavController()
+                        .navigate(R.id.action_cameraFragment_to_confirmPictureFragment, bundle)
                 }
             })
     }
@@ -158,7 +164,5 @@ class CameraFragment : Fragment() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        const val REQUEST_TAKEN_PICTURE = 1000
-        const val URI_OF_PICTURE = "uri"
     }
 }

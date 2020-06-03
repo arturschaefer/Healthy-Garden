@@ -17,6 +17,9 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer
+import com.schaefer.healthygarden.domain.model.Garden
+import com.schaefer.healthygarden.ui.garden.details.DetailsGardenFragment
+import kotlinx.android.synthetic.main.fragment_details_garden.view.*
 import java.util.*
 
 class CreateEditGardenFragment : Fragment() {
@@ -30,11 +33,19 @@ class CreateEditGardenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
-        setupObserver()
+        setupView(arguments?.get(DetailsGardenFragment.ARG_GARDEN) as Garden?)
+        setupObservers()
     }
 
-    private fun setupView() {
+    private fun setupView(garden: Garden?) {
+        if (garden != null){
+            includeCreateGardenForm.etDate.setText(garden.createdAt)
+            includeCreateGardenForm.etName.setText(garden.name)
+            includeCreateGardenForm.etDescription.setText(garden.description)
+            cbIndoor.isChecked = garden.isIndoor
+        }
+        createEditViewModel.setIsIndoor(garden?.isIndoor ?: false)
+
         includeCreateGardenForm.etDate.setOnClickListener {
             createDatePicker()
         }
@@ -43,7 +54,6 @@ class CreateEditGardenFragment : Fragment() {
             createEditViewModel.createGarden()
         }
 
-        createEditViewModel.setIsIndoor(false)
         cbIndoor.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             createEditViewModel.setIsIndoor(isChecked)
         }
@@ -74,9 +84,13 @@ class CreateEditGardenFragment : Fragment() {
         })
     }
 
-    private fun setupObserver() {
+    private fun setupObservers() {
         createEditViewModel.isValidForm.observe(viewLifecycleOwner, Observer {
             btnSave.isEnabled = it
+        })
+
+        createEditViewModel.isCreatedSuccess.observe(viewLifecycleOwner, Observer {
+
         })
     }
 
@@ -101,6 +115,7 @@ class CreateEditGardenFragment : Fragment() {
     private fun updateLabel() {
         val myFormat = "MM/dd/yy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
-        includeCreateGardenForm.etDate.setText(sdf.format(calendar.time))
+        val date = sdf.format(calendar.time)
+        includeCreateGardenForm.etDate.setText(date)
     }
 }

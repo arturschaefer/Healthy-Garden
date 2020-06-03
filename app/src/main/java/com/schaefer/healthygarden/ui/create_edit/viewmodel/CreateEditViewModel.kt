@@ -19,6 +19,9 @@ class CreateEditViewModel(
     private val _isValidForm = MutableLiveData<Boolean>()
     val isValidForm = _isValidForm.toLiveData()
 
+    private val _isCreatedSuccess = MutableLiveData<Boolean>()
+    val isCreatedSuccess = _isCreatedSuccess.toLiveData()
+
     fun setName(name: String) {
         _name.value = name
         validateForm()
@@ -59,14 +62,16 @@ class CreateEditViewModel(
         val garden = hashMapOf(
             "name" to _name.value,
             "description" to _description.value,
-            "date" to _date.value,
+            "createdAt" to _date.value,
             "isIndoor" to _isIndoor.value.toString()
         )
         firebaseAuth.currentUser?.uid?.let {
             firebaseStore.collection(it).add(garden)
                 .addOnSuccessListener { documentReference ->
+                    _isCreatedSuccess.value = true
                     Timber.d(documentReference.toString())
                 }.addOnFailureListener { ex ->
+                    _isCreatedSuccess.value = false
                     Timber.e(ex)
                 }
         }

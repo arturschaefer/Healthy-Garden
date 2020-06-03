@@ -95,4 +95,9 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    def dynamicanimation_version = '1.0.0'
+    implementation "androidx.dynamicanimation:dynamicanimation:$dynamicanimation_version"
+
+    implementation 'com.github.clans:fab:1.6.4'
 }

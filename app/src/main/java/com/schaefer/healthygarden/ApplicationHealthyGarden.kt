@@ -1,6 +1,8 @@
 package com.schaefer.healthygarden
 
 import android.app.Application
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.schaefer.healthygarden.di.KoinController
 import com.schaefer.healthygarden.di.modules.*
 import timber.log.Timber
@@ -26,5 +28,10 @@ class ApplicationHealthyGarden : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
+
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .build()
+        FirebaseFirestore.getInstance().firestoreSettings = settings
     }
 }
