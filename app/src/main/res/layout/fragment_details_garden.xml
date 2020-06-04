@@ -88,6 +88,7 @@
 
                     <TextView
                         android:id="@+id/tvTitle"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_default"
@@ -102,15 +103,18 @@
 
                     <TextView
                         android:id="@+id/tvDateTitle"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Date"
+                        android:text="Date:"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/cbIndoor"
                         app:layout_constraintStart_toStartOf="@+id/tvTitle"
                         app:layout_constraintTop_toTopOf="@+id/cbIndoor" />
 
                     <TextView
                         android:id="@+id/tvDate"
+                        style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -121,10 +125,12 @@
 
                     <TextView
                         android:id="@+id/tvDescriptionTitle"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:text="Description"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="@+id/tvTitle"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="@+id/tvTitle"
@@ -132,6 +138,7 @@
 
                     <TextView
                         android:id="@+id/tvDescription"
+                        style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
@@ -192,6 +199,7 @@
 
                     <TextView
                         android:id="@+id/tvGalleryTitle"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -221,7 +229,7 @@
                         android:id="@+id/rvGallery"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/margin_default"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/tvGalleryTitle"

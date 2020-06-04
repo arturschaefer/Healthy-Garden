@@ -11,24 +11,20 @@
         android:label="Healthy Garden"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/homeFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_detailsGardenFragment"
             app:destination="@id/detailsGardenFragment"
             app:popUpTo="@id/detailsGardenFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createEditGardenFragment"
+            app:destination="@id/createEditGardenFragment"
+            app:popUpTo="@id/createEditGardenFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.schaefer.healthygarden.ui.profile.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_homeFragment3"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/detailsGardenFragment"
         android:name="com.schaefer.healthygarden.ui.garden.details.DetailsGardenFragment"
@@ -39,7 +35,8 @@
             app:argType="com.schaefer.healthygarden.domain.model.Garden" />
         <action
             android:id="@+id/action_detailsGardenFragment_to_createEditGardenFragment"
-            app:destination="@id/createEditGardenFragment" />
+            app:destination="@id/createEditGardenFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
     <fragment
@@ -50,5 +47,15 @@
         <argument
             android:name="garden"
             app:argType="com.schaefer.healthygarden.domain.model.Garden" />
+        <action
+            android:id="@+id/action_createEditGardenFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_createEditGardenFragment_to_detailsGardenFragment"
+            app:destination="@id/detailsGardenFragment"
+            app:popUpTo="@id/detailsGardenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

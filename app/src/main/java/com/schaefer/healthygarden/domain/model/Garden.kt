@@ -5,12 +5,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Garden(
-    val name: String,
+    var name: String,
     val imageUrl: String,
-    val description: String,
-    val createdAt: String,
-    val updatedAt: String,
-    val isIndoor: Boolean,
+    var description: String,
+    var createdAt: String,
+    var updatedAt: String,
+    var isIndoor: Boolean,
     val listOfGalleryUrl: ArrayList<ImageGallery>,
     val id: String
 ) : Parcelable

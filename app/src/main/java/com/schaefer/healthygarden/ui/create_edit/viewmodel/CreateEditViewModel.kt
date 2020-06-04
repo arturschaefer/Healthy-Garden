@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.schaefer.healthygarden.R
 import com.schaefer.healthygarden.extensions.toLiveData
 import timber.log.Timber
 
@@ -21,6 +22,11 @@ class CreateEditViewModel(
 
     private val _isCreatedSuccess = MutableLiveData<Boolean>()
     val isCreatedSuccess = _isCreatedSuccess.toLiveData()
+
+    private val _idToNavigate = MutableLiveData<Int>()
+    val idToNavigate = _idToNavigate.toLiveData()
+
+    private val _isEditMode = MutableLiveData<Boolean>()
 
     fun setName(name: String) {
         _name.value = name
@@ -69,10 +75,40 @@ class CreateEditViewModel(
             firebaseStore.collection(it).add(garden)
                 .addOnSuccessListener { documentReference ->
                     _isCreatedSuccess.value = true
+                    setNavigation(false)
                     Timber.d(documentReference.toString())
                 }.addOnFailureListener { ex ->
                     _isCreatedSuccess.value = false
                     Timber.e(ex)
+                }
+        }
+    }
+
+    private fun setNavigation(isEditMode: Boolean) {
+        _idToNavigate.value = when (isEditMode) {
+            false -> R.id.action_createEditGardenFragment_to_homeFragment
+            true -> R.id.action_createEditGardenFragment_to_detailsGardenFragment
+        }
+    }
+
+    fun setEditMode(isEditMode: Boolean) {
+        _isEditMode.value = isEditMode
+    }
+
+    fun editGarden(id: String) {
+        val data = hashMapOf(
+            "name" to _name.value,
+            "description" to _description.value,
+            "createdAt" to _date.value,
+            "isIndoor" to _isIndoor.value.toString()
+        )
+        firebaseAuth.currentUser?.uid?.let { uid ->
+            firebaseStore.collection(uid).document(id).set(data)
+                .addOnSuccessListener {
+                    setNavigation(true)
+                }
+                .addOnFailureListener { exception ->
+                    Timber.d(exception)
                 }
         }
     }

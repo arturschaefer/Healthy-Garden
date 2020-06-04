@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -46,6 +47,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupView() {
+        (activity as AppCompatActivity).supportActionBar?.setHomeButtonEnabled(false)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         btnLogout.setOnClickListener {
             profileViewModel.logout()
         }
@@ -57,5 +61,6 @@ class ProfileFragment : Fragment() {
             .placeholder(R.drawable.person_placeholder)
             .error(R.drawable.person_placeholder)
             .into(ivProfileImage)
+
     }
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.schaefer.healthygarden.R
 import com.schaefer.healthygarden.ui.create_edit.viewmodel.CreateEditViewModel
@@ -17,14 +19,17 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.schaefer.healthygarden.domain.model.Garden
 import com.schaefer.healthygarden.ui.garden.details.DetailsGardenFragment
-import kotlinx.android.synthetic.main.fragment_details_garden.view.*
+import com.schaefer.healthygarden.ui.garden.details.DetailsGardenFragment.Companion.ARG_GARDEN
 import java.util.*
 
 class CreateEditGardenFragment : Fragment() {
     private val calendar: Calendar by inject()
     private val createEditViewModel: CreateEditViewModel by viewModel()
+    private var flagEditMode = false
+    private lateinit var gardenFinal: Garden
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,20 +43,28 @@ class CreateEditGardenFragment : Fragment() {
     }
 
     private fun setupView(garden: Garden?) {
-        if (garden != null){
+        if (garden != null) {
+            gardenFinal = garden
             includeCreateGardenForm.etDate.setText(garden.createdAt)
             includeCreateGardenForm.etName.setText(garden.name)
             includeCreateGardenForm.etDescription.setText(garden.description)
             cbIndoor.isChecked = garden.isIndoor
+            flagEditMode = true
         }
+
         createEditViewModel.setIsIndoor(garden?.isIndoor ?: false)
 
         includeCreateGardenForm.etDate.setOnClickListener {
             createDatePicker()
         }
 
+        createEditViewModel.setEditMode(true)
         btnSave.setOnClickListener {
-            createEditViewModel.createGarden()
+            if (flagEditMode) {
+                garden?.id?.let { id -> createEditViewModel.editGarden(id) }
+            } else {
+                createEditViewModel.createGarden()
+            }
         }
 
         cbIndoor.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
@@ -90,7 +103,23 @@ class CreateEditGardenFragment : Fragment() {
         })
 
         createEditViewModel.isCreatedSuccess.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), "Success to create this garden!", Toast.LENGTH_SHORT)
+                .show()
+        })
 
+        createEditViewModel.idToNavigate.observe(viewLifecycleOwner, Observer { navigateId ->
+            if (flagEditMode){
+                gardenFinal.apply {
+                    name = includeCreateGardenForm.etName.text.toString()
+                    description = includeCreateGardenForm.etDescription.text.toString()
+                    updatedAt = includeCreateGardenForm.etDate.text.toString()
+                    createdAt = includeCreateGardenForm.etDate.text.toString()
+                    isIndoor = cbIndoor.isChecked
+                }
+                requireView().findNavController().navigate(navigateId, bundleOf(ARG_GARDEN to gardenFinal))
+            } else {
+                requireView().findNavController().navigate(navigateId)
+            }
         })
     }
 

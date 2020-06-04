@@ -19,6 +19,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_default"
         app:boxStrokeColor="@color/colorPrimary"
+        app:passwordToggleEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="@+id/tilEmail"
         app:layout_constraintStart_toStartOf="@+id/tilEmail"
@@ -38,11 +41,14 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password" />
+            android:hint="Password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvForgotPassword"
+        style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_default"
