@@ -1,6 +1,7 @@
 package com.schaefer.healthygarden.ui.camera
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -30,6 +31,7 @@ class CameraFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
+    private var isSimplePicture = false
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -53,6 +55,9 @@ class CameraFragment : Fragment() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
+        isSimplePicture = true
+        if (!arguments?.getString(ARG_SIMPLE_PICTURE).isNullOrEmpty()) {
+        }
     }
 
     private fun startCamera() {
@@ -72,9 +77,12 @@ class CameraFragment : Fragment() {
             imageCapture = ImageCapture.Builder()
                 .build()
 
-            // Select back camera
-            val cameraSelector =
-                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+            val cameraSelector = when (isSimplePicture) {
+                false -> CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                    .build()
+                else -> CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+                    .build()
+            }
 
             try {
                 // Unbind use cases before rebinding
@@ -118,13 +126,16 @@ class CameraFragment : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-//                    val data = Intent()
-//                    data.putExtra(URI_OF_PICTURE, Uri.fromFile(photoFile))
-//                    requireActivity().setResult(REQUEST_TAKEN_PICTURE, data)
-//                    requireActivity().finish()
-                    val bundle = bundleOf("image" to Uri.fromFile(photoFile).toString())
-                    requireView().findNavController()
-                        .navigate(R.id.action_cameraFragment_to_confirmPictureFragment, bundle)
+                    if (isSimplePicture) {
+                        val intent = Intent()
+                        intent.putExtra(EXTRAS_PICTURE, Uri.fromFile(photoFile).toString())
+                        requireActivity().setResult(Activity.RESULT_OK, intent)
+                        requireActivity().finish()
+                    } else {
+                        val bundle = bundleOf("image" to Uri.fromFile(photoFile).toString())
+                        requireView().findNavController()
+                            .navigate(R.id.action_cameraFragment_to_confirmPictureFragment, bundle)
+                    }
                 }
             })
     }
@@ -164,5 +175,10 @@ class CameraFragment : Fragment() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+
+        const val ARG_SIMPLE_PICTURE = "simple_picture"
+        const val EXTRAS_PICTURE = "picture"
+
+        const val REQUEST_SIMPLE_PICTURE = 2000
     }
 }

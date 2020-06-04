@@ -1,22 +1,21 @@
 package com.schaefer.healthygarden.ui.home
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.schaefer.healthygarden.R
-import com.schaefer.healthygarden.domain.model.Mock
-import com.schaefer.healthygarden.ui.create_edit.CreateEditGardenActivity
 import com.schaefer.healthygarden.ui.home.adapter.GardenAdapter
 import com.schaefer.healthygarden.ui.home.viewmodel.HomeViewModel
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : Fragment() {
 
@@ -34,8 +33,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        homeViewModel.listOfGarden.observe(viewLifecycleOwner, Observer {listOfGardens ->
-            pbHome.visibility = if(listOfGardens.isNotEmpty()) View.GONE else View. VISIBLE
+        homeViewModel.listOfGarden.observe(viewLifecycleOwner, Observer { listOfGardens ->
+            pbHome.visibility = View.GONE
+            tvEmptyList.visibility = if (listOfGardens.isNullOrEmpty()) View.VISIBLE else View.GONE
             rvGarden.apply {
                 adapter = GardenAdapter(listOfGardens)
             }
@@ -49,9 +49,15 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(activity, 2)
         }
 
-        fbCreateGarden.setOnClickListener {view ->
+        fbCreateGarden.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_homeFragment_to_createEditGardenFragment)
 //            startActivity(Intent(requireContext(), CreateEditGardenActivity::class.java))
+        }
+
+        srlHome.setOnRefreshListener {
+            Toast.makeText(requireContext(), "Updating the list of Gardens!", Toast.LENGTH_SHORT)
+                .show()
+            Handler().postDelayed(Runnable { srlHome.isRefreshing = false }, 2000)
         }
     }
 }

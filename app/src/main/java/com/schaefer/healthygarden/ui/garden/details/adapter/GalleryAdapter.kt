@@ -8,7 +8,8 @@ import com.schaefer.healthygarden.domain.model.ImageGallery
 import com.schaefer.healthygarden.extensions.inflate
 import com.schaefer.healthygarden.ui.home.adapter.GardenViewHolder
 
-class GalleryAdapter (private val arrayList: ArrayList<ImageGallery>): RecyclerView.Adapter<GalleryViewHolder>() {
+class GalleryAdapter(private var arrayList: ArrayList<ImageGallery>) :
+    RecyclerView.Adapter<GalleryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val layout = parent.inflate(R.layout.item_gallery, false)
@@ -21,5 +22,22 @@ class GalleryAdapter (private val arrayList: ArrayList<ImageGallery>): RecyclerV
     }
 
     override fun getItemCount(): Int = arrayList.size
+
+    fun swapList(arrayList: ArrayList<ImageGallery>) {
+        this.arrayList = arrayList
+        notifyDataSetChanged()
+    }
+
+    fun addImage(imageGallery: ImageGallery) {
+        this.arrayList.add(imageGallery)
+
+        for (i in this.arrayList.indices) {
+            if (this.arrayList[i] == imageGallery) notifyItemInserted(i)
+        }
+    }
+
+    fun getList(): ArrayList<ImageGallery> {
+        return this.arrayList
+    }
 
 }

@@ -28,6 +28,9 @@ class GardenViewHolder(override val containerView: View) :
             .error(R.drawable.placeholder_header_garden)
             .into(ivGarden)
         cvGardenItem.setOnClickListener { view ->
+            if (garden.listOfImages.isNullOrEmpty()){
+                garden.listOfImages = arrayListOf()
+            }
             val bundle = bundleOf("garden" to garden)
             view.findNavController().navigate(R.id.action_homeFragment_to_detailsGardenFragment, bundle)
         }

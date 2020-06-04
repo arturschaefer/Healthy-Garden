@@ -1,5 +1,6 @@
 package com.schaefer.healthygarden.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.schaefer.healthygarden.R
+import com.schaefer.healthygarden.ui.camera.CameraActivity
+import com.schaefer.healthygarden.ui.camera.CameraFragment
+import com.schaefer.healthygarden.ui.camera.CameraFragment.Companion.ARG_SIMPLE_PICTURE
+import com.schaefer.healthygarden.ui.camera.CameraFragment.Companion.EXTRAS_PICTURE
+import com.schaefer.healthygarden.ui.camera.CameraFragment.Companion.REQUEST_SIMPLE_PICTURE
 import com.schaefer.healthygarden.ui.login.LoginActivity
 import com.schaefer.healthygarden.ui.profile.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -44,6 +50,14 @@ class ProfileFragment : Fragment() {
                 Timber.e("Error while logout")
             }
         })
+
+        profileViewModel.imageProfile.observe(viewLifecycleOwner, Observer {imageUri ->
+            Glide.with(requireView())
+                .load(imageUri)
+                .placeholder(R.drawable.person_placeholder)
+                .error(R.drawable.person_placeholder)
+                .into(ivProfileImage)
+        })
     }
 
     private fun setupView() {
@@ -62,5 +76,17 @@ class ProfileFragment : Fragment() {
             .error(R.drawable.person_placeholder)
             .into(ivProfileImage)
 
+        ivEditProfile.setOnClickListener {
+            val intent = Intent(requireContext(), CameraActivity::class.java)
+            intent.putExtra(ARG_SIMPLE_PICTURE, "profile")
+            startActivityForResult(intent, CameraFragment.REQUEST_SIMPLE_PICTURE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_SIMPLE_PICTURE && resultCode == Activity.RESULT_OK){
+            profileViewModel.updatePhoto(data?.extras?.get(EXTRAS_PICTURE) as String)
+        }
     }
 }

@@ -11,6 +11,6 @@ data class Garden(
     var createdAt: String,
     var updatedAt: String,
     var isIndoor: Boolean,
-    val listOfGalleryUrl: ArrayList<ImageGallery>,
-    val id: String
+    var listOfImages: ArrayList<ImageGallery>,
+    var id: String
 ) : Parcelable

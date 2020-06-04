@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.schaefer.healthygarden.R
+import com.schaefer.healthygarden.domain.model.ImageGallery
 import com.schaefer.healthygarden.extensions.toLiveData
 import timber.log.Timber
 
@@ -100,6 +101,8 @@ class CreateEditViewModel(
             "name" to _name.value,
             "description" to _description.value,
             "createdAt" to _date.value,
+            "updatedAt" to _date.value,
+            "listOfImages" to arrayListOf<ImageGallery>(),
             "isIndoor" to _isIndoor.value.toString()
         )
         firebaseAuth.currentUser?.uid?.let { uid ->

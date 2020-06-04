@@ -1,5 +1,6 @@
 package com.schaefer.healthygarden.ui.camera
 
+import android.app.Activity
 import android.content.Intent
 import android.media.Image
 import android.os.Bundle
@@ -30,7 +31,7 @@ class ConfirmPictureFragment : Fragment() {
             val intent = Intent()
             intent.putExtra(IMAGE_GALLERY, imageGallery)
             //TODO see a better way to do with navigation
-            requireActivity().setResult(REQUEST_TAKEN_PICTURE, intent)
+            requireActivity().setResult(Activity.RESULT_OK, intent)
             requireActivity().finish()
         }
 

@@ -99,5 +99,8 @@ dependencies {
     def dynamicanimation_version = '1.0.0'
     implementation "androidx.dynamicanimation:dynamicanimation:$dynamicanimation_version"
 
-    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }

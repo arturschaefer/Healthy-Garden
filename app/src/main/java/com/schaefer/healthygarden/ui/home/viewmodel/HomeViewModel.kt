@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.schaefer.healthygarden.domain.model.Garden
 import com.schaefer.healthygarden.extensions.toLiveData
 import timber.log.Timber
+
 
 class HomeViewModel(
     private val firebaseFirestore: FirebaseFirestore,
@@ -24,7 +26,11 @@ class HomeViewModel(
                     val arrayList = arrayListOf<Garden>()
                     result.forEach { document ->
                         Timber.d(document.metadata.toString())
-                        arrayList.add(document.data.toGarden(document.id))
+                        val json = Gson().toJson(document.data)
+                        val garden: Garden = Gson().fromJson(json, Garden::class.java)
+                        garden.id = document.id
+
+                        arrayList.add(garden)
                     }
                     _listOfGardens.value = arrayList
                 }.addOnFailureListener { ex ->
@@ -32,17 +38,4 @@ class HomeViewModel(
                 }
         }
     }
-}
-
-private fun MutableMap<String, Any>.toGarden(idOfDocument: String): Garden {
-    return Garden(
-        name = this["name"].toString(),
-        imageUrl = this["imageUrl"].toString(),
-        updatedAt = this["updatedAt"].toString(),
-        createdAt = this["createdAt"].toString(),
-        isIndoor = this["isIndoor"].toString().toBoolean(),
-        listOfGalleryUrl = arrayListOf(),
-        description = this["description"].toString(),
-        id = idOfDocument
-    )
 }
