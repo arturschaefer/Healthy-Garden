@@ -2,6 +2,7 @@ package com.schaefer.healthygarden.ui.garden.details
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,15 +18,18 @@ import com.schaefer.healthygarden.domain.model.Garden
 import com.schaefer.healthygarden.domain.model.ImageGallery
 import com.schaefer.healthygarden.domain.model.Mock
 import com.schaefer.healthygarden.ui.camera.CameraActivity
+import com.schaefer.healthygarden.ui.camera.CameraFragment.Companion.EXTRAS_PICTURE
 import com.schaefer.healthygarden.ui.camera.ConfirmPictureFragment
 import com.schaefer.healthygarden.ui.camera.ConfirmPictureFragment.Companion.IMAGE_GALLERY
 import com.schaefer.healthygarden.ui.garden.details.adapter.GalleryAdapter
 import com.schaefer.healthygarden.ui.garden.details.viewmodel.GardenDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_details_garden.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsGardenFragment : Fragment() {
     private val detailsViewModel: GardenDetailsViewModel by viewModel()
+    private val sharedPreferences: SharedPreferences by inject()
 
     private lateinit var gardenArgument: Garden
     private val galleryAdapter = GalleryAdapter(arrayListOf())
@@ -58,6 +62,7 @@ class DetailsGardenFragment : Fragment() {
     private fun setupView(garden: Garden) {
         gardenArgument = garden
         fbAddPicture.setOnClickListener {
+            sharedPreferences.edit().putString("camera", "details").apply()
             startActivityForResult(
                 Intent(requireContext(), CameraActivity::class.java),
                 ConfirmPictureFragment.REQUEST_TAKEN_PICTURE

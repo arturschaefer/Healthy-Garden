@@ -17,7 +17,8 @@ class ApplicationHealthyGarden : Application() {
         homeModule,
         createEditModule,
         profileModule,
-        gardenDetailsModule
+        gardenDetailsModule,
+        sharedModule
     )
 
     override fun onCreate() {

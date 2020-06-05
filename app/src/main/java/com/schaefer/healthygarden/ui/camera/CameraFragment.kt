@@ -3,6 +3,7 @@ package com.schaefer.healthygarden.ui.camera
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.schaefer.healthygarden.R
 import kotlinx.android.synthetic.main.fragment_camera.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
@@ -32,6 +34,7 @@ class CameraFragment : Fragment() {
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var isSimplePicture = false
+    private val sharedPreferences: SharedPreferences by inject()
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -54,10 +57,6 @@ class CameraFragment : Fragment() {
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-
-        isSimplePicture = true
-        if (!arguments?.getString(ARG_SIMPLE_PICTURE).isNullOrEmpty()) {
-        }
     }
 
     private fun startCamera() {
@@ -77,12 +76,15 @@ class CameraFragment : Fragment() {
             imageCapture = ImageCapture.Builder()
                 .build()
 
-            val cameraSelector = when (isSimplePicture) {
-                false -> CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                    .build()
-                else -> CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                    .build()
-            }
+            val cameraSelector =
+                when (sharedPreferences.getString("camera", "")?.equals("profile")) {
+                    true -> CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+                        .build()
+                    else -> CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                        .build()
+                }
 
             try {
                 // Unbind use cases before rebinding
@@ -126,15 +128,21 @@ class CameraFragment : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    if (isSimplePicture) {
-                        val intent = Intent()
-                        intent.putExtra(EXTRAS_PICTURE, Uri.fromFile(photoFile).toString())
-                        requireActivity().setResult(Activity.RESULT_OK, intent)
-                        requireActivity().finish()
-                    } else {
-                        val bundle = bundleOf("image" to Uri.fromFile(photoFile).toString())
-                        requireView().findNavController()
-                            .navigate(R.id.action_cameraFragment_to_confirmPictureFragment, bundle)
+                    when (sharedPreferences.getString("camera", "")?.equals("profile")) {
+                        true -> {
+                            val intent = Intent()
+                            intent.putExtra(EXTRAS_PICTURE, Uri.fromFile(photoFile).toString())
+                            requireActivity().setResult(Activity.RESULT_OK, intent)
+                            requireActivity().finish()
+                        }
+                        else -> {
+                            val bundle = bundleOf("image" to Uri.fromFile(photoFile).toString())
+                            requireView().findNavController()
+                                .navigate(
+                                    R.id.action_cameraFragment_to_confirmPictureFragment,
+                                    bundle
+                                )
+                        }
                     }
                 }
             })
